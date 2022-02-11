@@ -3,10 +3,11 @@
 import chalk from "chalk";
 import fs from "fs";
 import inquirer from 'inquirer';
+inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
 import { Command } from 'commander';
 import { v4 as uuidv4 } from 'uuid';
 const program = new Command();
-// import pkg from './package.json'; ToDo: This is causing as error
+// import * as data from './package.json';
 
 program
 	.name("diary")
@@ -53,7 +54,7 @@ async function writeTitle() {
 async function writeBody() {
 	const answers = await inquirer.prompt({
 		name: 'body',
-		type: 'input',
+		type: 'editor',
 		message: 'What is the body?',
 		default() {
 			return;
@@ -116,7 +117,9 @@ program.command("search")
 program.command("config")
 	.description("Get and set configuration options.")
 	.option("-g, --get <key>", "get configuration")
+	.option("-s, --set <key>", "set configuration")
 	.action((options) => {
+		console.log(options)
 		if (options.get) {
 			fs.readFile("./config.json", 'utf8', (err, data) => {
 				if (err) {
@@ -135,7 +138,20 @@ program.command("config")
 				}
 			})
 			// ToDo: This will have to read from the globally installed config file after npm install -g.
-		}}
+		}
+		if (options.set) {
+			console.log(`The current date formate is ${options.set}`)
+			inquirer.prompt(
+				{
+					name: 'date',
+					type: 'list',
+					message: 'What date format would you like to use?',
+					choices: ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY/MM/DD'],
+				}
+			)
+		}
+	}
+		
 			);
 
 program.parse(process.argv);
