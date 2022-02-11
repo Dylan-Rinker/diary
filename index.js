@@ -3,7 +3,7 @@
 import chalk from "chalk";
 import fs from "fs";
 import inquirer from 'inquirer';
-inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
+// inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
 import { Command } from 'commander';
 import { v4 as uuidv4 } from 'uuid';
 const program = new Command();
@@ -28,13 +28,26 @@ async function writeFunction() {
 	const uuid = uuidv4();
 
 	// Create a json object with title, body, labels, and uuid
-	const object = {
+	const entry = {
 		"uuid": uuid,
 		"title": title,
 		"body": body,
 		"labels": labels,
 	};
-	console.log(object);
+
+	writeEntry(entry);
+	// console.log(object);
+}
+
+function writeEntry(entry) {
+	const db = fs.readFileSync("./database.json", "utf8");
+	console.log(JSON.parse(db));
+
+	let newDB = JSON.parse(db);
+	
+	newDB.entries.push(entry) // How to I do this immutably?
+	
+	fs.writeFileSync("./database.json", JSON.stringify(newDB));
 }
 
 async function writeTitle() {
@@ -93,12 +106,56 @@ program.command("edit")
 		console.log("This is the edit operation");
 	});
 
+// check if object is empty
+
+function isObjectEmpty(object) {
+	return Object.keys(object).length === 0 && object.constructor === Object;
+}
+
 program.command("delete")
 	.description("Delete an entry from your diary")
-	.argument("<uuid>", "uuid of entry to delete")
-	.action(() => {
+	.option("-u, --uuid <uuid>", "uuid of entry to delete")
+	.action((options) => {
+		console.log(`Delete options: ${options}`);
+		if (Object.keys(options).length === 0) {
+			deletePrompt();
+		}
+
 		console.log("This is the delete operation");
 	});
+
+function deletePrompt() {
+	entries = returnEntries();
+	console.log(entries)
+
+	inquirer.prompt({
+		type: "list",
+		name: "delete",
+		message: "What do you want to delete?",
+		choices: [
+			"Entry",
+			"Label",
+			"Both",
+		],
+	}).then(answers => {
+		console.log(answers);
+		if (answers.delete === "Entry") {
+			deleteEntry();
+		}
+		else if (answers.delete === "Label") {
+			deleteLabel();
+		}
+		else if (answers.delete === "Both") {
+			deleteEntry();
+			deleteLabel();
+		}
+	});
+}
+
+function returnEntries() {
+	const entries = fs.readFileSync("./database.json", "utf8");
+	return JSON.parse(entries);
+}
 
 program.command("search")
 	.description("Search your diary.")
@@ -117,6 +174,7 @@ program.command("search")
 program.command("config")
 	.description("Get and set configuration options.")
 	.option("-g, --get <key>", "get configuration")
+	.option("-ga, --get-all", "get all configurations")
 	.option("-s, --set <key>", "set configuration")
 	.action((options) => {
 		console.log(options)
@@ -139,8 +197,19 @@ program.command("config")
 			})
 			// ToDo: This will have to read from the globally installed config file after npm install -g.
 		}
+		if (options.getAll) {
+			fs.readFile("./config.json", 'utf8', (err, data) => {
+				if (err) {
+					return console.log(err);
+				}
+				if (data) {
+					const config = JSON.parse(data);
+					console.log(config)
+				}
+			})
+	}
 		if (options.set) {
-			console.log(`The current date formate is ${options.set}`)
+			console.log(`The current date format is ${options.set}`)
 			inquirer.prompt(
 				{
 					name: 'date',

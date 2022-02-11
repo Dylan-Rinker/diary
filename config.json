@@ -1,4 +1,6 @@
 {
+  "dateColor": "#ffffff",
   "dateFormat": "dd/mm/yyyy",
-  "dateColor": "#ffffff"
+  "defaultReadLogs": 10,
+  "titleColor": "#4c4c4c"
 }
