@@ -1,11 +1,1 @@
-{"entries": [
-  {"uuid": "1", "title": "title1", "content": "content1", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "2", "title": "title2", "content": "content2", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "3", "title": "title3", "content": "content3", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "4", "title": "title4", "content": "content4", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "5", "title": "title5", "content": "content5", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "6", "title": "title6", "content": "content6", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "7", "title": "title7", "content": "content7", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "8", "title": "title8", "content": "content8", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"},
-  {"uuid": "9", "title": "title9", "content": "content9", "labels": ["todo"], "created": "2017-01-01T00:00:00Z", "updated": "2017-01-01T00:00:00Z"}
-]}
+{"entries":[{"uuid":"a24115fe-4558-4a09-bac4-6407aaab71ab","title":"title","body":"body\n","labels":"done"},{"uuid":"cd25558b-6d9f-4dcb-8f57-0c7015f887b9","title":"title2","body":"body2\n","labels":"body","created":"2022-02-11T23:04:46.882Z","updated":"2022-02-11T23:04:46.882Z"}]}

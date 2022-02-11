@@ -33,6 +33,8 @@ async function writeFunction() {
 		"title": title,
 		"body": body,
 		"labels": labels,
+		"created": new Date(),
+		"updated": new Date(),
 	};
 
 	writeEntry(entry);
@@ -106,12 +108,6 @@ program.command("edit")
 		console.log("This is the edit operation");
 	});
 
-// check if object is empty
-
-function isObjectEmpty(object) {
-	return Object.keys(object).length === 0 && object.constructor === Object;
-}
-
 program.command("delete")
 	.description("Delete an entry from your diary")
 	.option("-u, --uuid <uuid>", "uuid of entry to delete")
@@ -125,13 +121,13 @@ program.command("delete")
 	});
 
 function deletePrompt() {
-	entries = returnEntries();
+	const entries = returnEntries();
 	console.log(entries)
 
 	inquirer.prompt({
 		type: "list",
 		name: "delete",
-		message: "What do you want to delete?",
+		message: "Which entries do you want to delete?",
 		choices: [
 			"Entry",
 			"Label",
